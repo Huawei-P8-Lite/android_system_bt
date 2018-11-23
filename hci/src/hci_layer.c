@@ -419,6 +419,10 @@ static void transmit_command(
 
   uint8_t *stream = command->data + command->offset;
   STREAM_TO_UINT16(wait_entry->opcode, stream);
+  if(wait_entry->opcode == 0x40f) {
+	osi_free(wait_entry);
+	return;
+  }
   wait_entry->complete_callback = complete_callback;
   wait_entry->status_callback = status_callback;
   wait_entry->command = command;
